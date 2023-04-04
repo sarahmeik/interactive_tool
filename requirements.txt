@@ -1,0 +1,7 @@
+plotly.express
+plotly.io
+plotly.graph_objects
+matplotlib.colors
+pandas
+numpy
+streamlit
