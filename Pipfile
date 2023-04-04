@@ -5,6 +5,13 @@ name = "pypi"
 
 [packages]
 shiny = "*"
+plotly.express = "*"
+plotly.graph_objects = "*"
+plotly.io = "*"
+matplotlib.colors = "*"
+pandas = "*"
+numpy = "*"
+streamlit = "*"
 
 [dev-packages]
 
