@@ -5,8 +5,32 @@ import matplotlib.colors as mplcolors
 import pandas as pd
 import numpy as np
 import streamlit as st
+import psycopg2
 
 original_efficiency_factor = 0.5
+
+# Initialize connection.
+# Uses st.cache_resource to only run once.
+@st.cache_resource
+def init_connection():
+    return psycopg2.connect(**st.secrets["postgres"])
+
+conn = init_connection()
+
+# Perform query.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
+rows = run_query("SELECT * FROM dwh.gww_material_profile limit 200")
+
+# Print results.
+for row in rows:
+    st.write(f"{row[0]} has a :{row[1]}:")
+
 
 # create and insert sliders into sidebar
 st.sidebar.image('https://mlombw7jtauz.i.optimole.com/cb:i-DS~f076/w:auto/h:auto/q:mauto/https://www.metabolic.nl/wp-content/uploads/2022/10/Metabolic_Logo_2022.png', caption=None, width=50, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
